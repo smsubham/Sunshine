@@ -106,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public class FetchWeatherTask extends AsyncTask<String,Void,Void> {
+
+        private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+
         public Void doInBackground(String... Paras) {
 // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
@@ -122,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 String baseUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7";
                 String apiKey = "&APPID=" + "96ce744f755e88d042a488ec10f50d92";
                 URL url = new URL(baseUrl.concat(apiKey));
+
+                Log.v(LOG_TAG, "Built URI " + baseUrl.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -150,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     //return null;
                 }
                 forecastJsonStr = buffer.toString();
+                Log.v(LOG_TAG, "Json string:  " + forecastJsonStr);
             } catch (IOException e) {
                 Log.e("ForecastFragment", "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
